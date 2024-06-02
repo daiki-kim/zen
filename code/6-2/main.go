@@ -11,8 +11,8 @@ import (
 var store = sessions.NewCookieStore([]byte("secret-key"))
 
 const (
-	SessionKey  = "session-key"
-	SessionName = "session-name"
+	SessionKey  = "session-key"  // セッションストアにセッションIDを保存するために使用されるキー
+	SessionName = "session-name" // セッションIDを保存するために使用される名前
 )
 
 // セッションをチェックし、認証されたユーザーが存在する場合はそのユーザーを返す関数
@@ -30,19 +30,22 @@ func CheckSession(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// ユーザーが認証されている場合は、認証されたユーザーをコンソールに表示
-	fmt.Fprintf(w, "認証されたユーザー: %v", user)
+	fmt.Fprintf(w, "Authenticated user: %v", user)
 }
 
-// login関数は、SessionKeyのセッションの値を"email"に設定し、そのセッションを保存する関数
+// SessionKeyのセッションの値を"session-id"に設定し、そのセッションを保存する関数
 func login(w http.ResponseWriter, r *http.Request) {
 	// 指定された名前を使用してセッションを取得
 	session, _ := store.Get(r, SessionName)
 
 	// セッションの値に値を設定
-	session.Values[SessionKey] = "email"
+	session.Values[SessionKey] = "session-id"
 
 	// セッションを保存
 	session.Save(r, w)
+
+	// セッション保存が完了したらコンソールに表示
+	fmt.Fprintf(w, "Session saved")
 }
 
 func main() {
