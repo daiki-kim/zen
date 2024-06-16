@@ -14,5 +14,5 @@ func main() {
 	)
 	addUser := &User{} // User構造体を初期化したポインタを代入
 
-	fmt.Printf("%+v\n%+v\n%+v\n", user, pUser, addUser)
+	fmt.Printf("user: %+v\npUser: %+v\naddUser: %+v\n", user, pUser, addUser)
 }
